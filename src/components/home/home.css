@@ -1,0 +1,81 @@
+.image-container{
+    max-height: 96vh;
+    display: flex;
+
+    img{
+        max-height: 96vh;
+        border-radius: 2rem;
+        opacity: 0.8;
+    }
+}
+.image-container img:hover {
+    opacity: 1;
+    cursor: pointer;
+}
+
+.image-label h2 {
+    position: absolute;
+    color: rgba(31, 31, 31, 0.8);
+    z-index: 2;
+    font-size: 3em;
+    rotate: 90deg;
+}
+.image-label{
+    background:red;
+    z-index: 3;
+}
+.label-professional h2{
+    margin-left: -6vw;
+    margin-top: 25vh;
+}
+.label-personal h2{
+    margin-left: -4vw;
+    margin-top: 20vh;
+}
+
+.home-content-wrapper{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap:2rem;
+    padding-bottom: 2vh;
+    padding-top: 2vh;
+}
+
+
+.home-page-content{
+    background: black;
+}
+.logo img{
+    position: fixed;
+    max-height: 4vh;
+    z-index: 3;
+    left: 20px;
+    top:20px;
+}
+body{
+    background: black;
+}
+
+@media only screen and (max-width: 600px) {
+    .content-wrapper{
+        flex-direction: column;
+    }
+    .image-container{
+        max-height: 40%;
+        display: flex;
+        opacity: 0.8;
+        img{
+            max-height: 55vh;
+            border-radius: 2rem;
+        }
+    }
+    .label-professional h2{
+        margin-left: -32vw;
+    }
+    .label-personal h2{
+        margin-left: -20vw;
+    }
+
+}
