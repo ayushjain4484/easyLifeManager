@@ -21,6 +21,7 @@
 .main-section-container {
   margin-left: 20%;
   flex: 1; /* Main section takes up the remaining space */
+  min-height: 100vh;
 }
 
 .dashboard-content{

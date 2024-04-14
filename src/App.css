@@ -3,6 +3,10 @@
   --sidebar-background-color-hover: #2d2d2d;
   --mainsection-header-background-color: #e7e7e7;
   --mainsection-table-element-background-color: #ececec;
+  --mainsection-table-element-background-color-red: #ead5d5;
+  --mainsection-table-element-background-color-green: #d7ead5;
+  --mainsection-table-element-background-color-yellow: #eae7d5;
+  --mainsection-table-element-background-color-blue: #d5d7ea;
 }
 
 .App {

@@ -53,18 +53,18 @@ const SubscriptionsPage: React.FC = () => {
                     <tbody>
                     {subscriptions.map((subscription, index) => (
                         <tr key={index}>
-                            <td className="trip-table-element">
+                            <td className={subscription.is_active?"trip-table-element":"trip-table-element-red"}>
                                 <img src={subscription.logo} alt={`${subscription.service} logo`} className="table-element-logo-image" />
                             </td>
-                            <td className="trip-table-element">{subscription.service}</td>
-                            <td className="trip-table-element">{subscription.renews}</td>
-                            <td className="trip-table-element">{subscription.start_date}</td>
-                            <td className="trip-table-element">{subscription.end_date}</td>
-                            <td className="trip-table-element">{subscription.frequency} month(s)</td>
-                            <td className="trip-table-element">{`${subscription.cost} ${subscription.currency}`}</td>
-                            <td className="trip-table-element">{subscription.is_active ? 'Yes' : 'No'}</td>
-                            <td className="trip-table-element">{subscription.currency}</td>
-                            <td className="trip-table-element"><button>Pause</button></td>
+                            <td className={subscription.is_active?"trip-table-element":"trip-table-element-red"}>{subscription.service}</td>
+                            <td className={subscription.is_active?"trip-table-element":"trip-table-element-red"}>{subscription.renews}</td>
+                            <td className={subscription.is_active?"trip-table-element":"trip-table-element-red"}>{subscription.start_date}</td>
+                            <td className={subscription.is_active?"trip-table-element":"trip-table-element-red"}>{subscription.end_date}</td>
+                            <td className={subscription.is_active?"trip-table-element":"trip-table-element-red"}>{subscription.frequency} month(s)</td>
+                            <td className={subscription.is_active?"trip-table-element":"trip-table-element-red"}>{`${subscription.cost} ${subscription.currency}`}</td>
+                            <td className={subscription.is_active?"trip-table-element":"trip-table-element-red"}>{subscription.is_active ? 'Yes' : 'No'}</td>
+                            <td className={subscription.is_active?"trip-table-element":"trip-table-element-red"}>{subscription.currency}</td>
+                            <td className={subscription.is_active?"trip-table-element":"trip-table-element-red"}><button>Pause</button></td>
                         </tr>
                     ))}
                     </tbody>

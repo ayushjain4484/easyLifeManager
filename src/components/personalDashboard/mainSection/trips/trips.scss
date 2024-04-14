@@ -35,6 +35,30 @@
   border-radius: 5px;
 }
 
+.trip-table-element-red{
+  padding: 0.5rem 1rem;
+  background-color: var(--mainsection-table-element-background-color-red);
+  border-radius: 5px;
+}
+
+.trip-table-element-green{
+  padding: 0.5rem 1rem;
+  background-color: var(--mainsection-table-element-background-color-green);
+  border-radius: 5px;
+}
+
+.trip-table-element-blue{
+  padding: 0.5rem 1rem;
+  background-color: var(--mainsection-table-element-background-color-blue);
+  border-radius: 5px;
+}
+
+.trip-table-element-yellow{
+  padding: 0.5rem 1rem;
+  background-color: var(--mainsection-table-element-background-color-yellow);
+  border-radius: 5px;
+}
+
 .trip-table{
   margin-left: 3rem;
   margin-top: 3rem;
