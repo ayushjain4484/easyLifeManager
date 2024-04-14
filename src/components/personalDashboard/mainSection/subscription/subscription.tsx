@@ -7,6 +7,7 @@ import "./subscription.scss";
 const SubscriptionsPage: React.FC = () => {
     const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
     const [totalMonthlyPayment, setTotalMonthlyPayment] = useState<string>('€0.00');
+    const [totalYearlyPayment, setTotalYearlyPayment] = useState<string>('€0.00');
 
     useEffect(() => {
         fetchSubscriptions()
@@ -23,13 +24,15 @@ const SubscriptionsPage: React.FC = () => {
             return subscription.is_active ? acc + monthlyCost : acc;
         }, 0);
         setTotalMonthlyPayment(`€${total.toFixed(2)}`);
+        setTotalYearlyPayment(`€${(total * 12).toFixed(2)}`);
     };
 
     return (
         <div className="subscription-page-container">
             <div className="subscription-page-header">
                 <div className="trip-page-header-title"><h2>Subscriptions</h2></div>
-                <div className="trip-page-header-title"><h2>Total: {totalMonthlyPayment}</h2></div>
+                <div className="trip-page-header-title"><h2>Monthly: {totalMonthlyPayment}</h2></div>
+                <div className="trip-page-header-title"><h2>Yearly: {totalYearlyPayment}</h2></div>
             </div>
             <div className="subscription-page-content">
                 <table className="subscription-table">
