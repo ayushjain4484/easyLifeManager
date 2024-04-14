@@ -1,37 +1,26 @@
 // src/components/SubscriptionsPage.jsx
 import React, { useState, useEffect } from "react";
-import { Subscription } from '../../../../types'; // Make sure to import the type
-import axios from "axios";
+import { Subscription } from '../../../../types';
+import { fetchSubscriptions } from './subscriptionService';
 import "./subscription.scss";
 
-const SubscriptionsPage = () => {
+const SubscriptionsPage: React.FC = () => {
     const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
     const [totalMonthlyPayment, setTotalMonthlyPayment] = useState<string>('€0.00');
 
     useEffect(() => {
-        const authToken = "30cd1804d9154288cac036e585f96e031aa65a3f"; // Your actual token here
-
-        axios.get<Subscription[]>('http://localhost:8000/api/subscriptions/', {
-            headers: {
-                'Authorization': `Token ${authToken}`
-            }
-        })
-            .then(response => {
-                const fetchedSubscriptions = response.data;
+        fetchSubscriptions()
+            .then(fetchedSubscriptions => {
                 setSubscriptions(fetchedSubscriptions);
                 calculateTotalMonthlyPayment(fetchedSubscriptions);
             })
             .catch(error => console.error('Failed to load subscriptions:', error));
     }, []);
 
-    const calculateTotalMonthlyPayment = (subscriptions: Subscription[]) => {
-        const total = subscriptions.reduce((acc, subscription) => {
-            const monthlyCost = parseFloat(subscription.cost.replace('€', ''));
-            return subscription.frequency === 'monthly' ?
-                acc + monthlyCost :
-                subscription.frequency === 'yearly' ?
-                    acc + (monthlyCost / 12) :
-                    acc;
+    const calculateTotalMonthlyPayment = (subscriptions: Subscription[]): void => {
+        const total = subscriptions.reduce((acc: number, subscription: Subscription) => {
+            const monthlyCost = parseFloat(subscription.cost) / parseFloat(subscription.frequency);
+            return subscription.is_active ? acc + monthlyCost : acc;
         }, 0);
         setTotalMonthlyPayment(`€${total.toFixed(2)}`);
     };
@@ -68,7 +57,7 @@ const SubscriptionsPage = () => {
                             <td className="trip-table-element">{subscription.renews}</td>
                             <td className="trip-table-element">{subscription.start_date}</td>
                             <td className="trip-table-element">{subscription.end_date}</td>
-                            <td className="trip-table-element">{subscription.frequency}</td>
+                            <td className="trip-table-element">{subscription.frequency} month(s)</td>
                             <td className="trip-table-element">{`${subscription.cost} ${subscription.currency}`}</td>
                             <td className="trip-table-element">{subscription.is_active ? 'Yes' : 'No'}</td>
                             <td className="trip-table-element">{subscription.currency}</td>

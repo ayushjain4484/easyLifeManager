@@ -3,17 +3,19 @@ import axios from 'axios';
 import { Subscription } from '../../../../types';
 
 const API_URL = 'http://127.0.0.1:8000/api/subscriptions/';
+const authToken="30cd1804d9154288cac036e585f96e031aa65a3f"
 
-
-const yourAuthToken="30cd1804d9154288cac036e585f96e031aa65a3f"
-const config = {
-    headers: { Authorization: `Token ${yourAuthToken}` }
+export const fetchSubscriptions = (): Promise<Subscription[]> => {
+    return axios.get<Subscription[]>(API_URL, {
+        headers: {
+            'Authorization': `Token ${authToken}`
+        }
+    }).then(response => response.data);
 };
 
-// Fetch all subscriptions
-export const fetchSubscriptions = () => {
-    return axios.get<Subscription[]>(API_URL);
-};
+
+
+
 
 // Add a new subscription
 export const addSubscription = (subscription: Subscription) => {
