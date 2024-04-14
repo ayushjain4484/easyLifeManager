@@ -1,0 +1,44 @@
+[
+  {
+    "service": "Netflix",
+    "renews": "Apr 14, 2024",
+    "frequency": "monthly",
+    "cost": "€7.40",
+    "logo": "https://images.ctfassets.net/4cd45et68cgf/Rx83JoRDMkYNlMC9MKzcB/2b14d5a59fc3937afd3f03191e19502d/Netflix-Symbol.png?w=700&h=456"
+  },
+  {
+    "service": "Disney+",
+    "renews": "Apr 29, 2024",
+    "frequency": "monthly",
+    "cost": "€8.99",
+    "logo": "https://i.pinimg.com/736x/06/8f/e4/068fe4ec6df8e57eb5e7934b915c4aa0.jpg"
+  },
+  {
+    "service": "Amazon Prime",
+    "renews": "May 7, 2024",
+    "frequency": "monthly",
+    "cost": "€4.49",
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Amazon_Prime_Video_blue_logo_1.svg/480px-Amazon_Prime_Video_blue_logo_1.svg.png"
+  },
+  {
+    "service": "FITX",
+    "renews": "May 1, 2024",
+    "frequency": "monthly",
+    "cost": "€20.00",
+    "logo": "https://play-lh.googleusercontent.com/53KYRVGfFxfRQGStnlBcDlcAOC2LgSXmE3bsUINDJ3BlWX7gdGxvy4vImQ9Eh5fz-A"
+  },
+  {
+    "service": "ALDI TALK",
+    "renews": "May 1, 2024",
+    "frequency": "monthly",
+    "cost": "€8.99",
+    "logo": "https://media.medion.com/alditalkapp?impolicy=prod_trans?w=180"
+  },
+  {
+    "service": "Spotify",
+    "renews": "Aug 27, 2024",
+    "frequency": "yearly",
+    "cost": "€13.34",
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Spotify_App_Logo.svg/800px-Spotify_App_Logo.svg.png"
+  }
+]

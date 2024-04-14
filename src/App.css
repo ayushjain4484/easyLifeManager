@@ -1,6 +1,8 @@
 :root {
-  --sidebar-background-color: #4d4d4d;
-  --sidebar-background-color-hover: #4f4f4f;
+  --sidebar-background-color: #343434;
+  --sidebar-background-color-hover: #2d2d2d;
+  --mainsection-header-background-color: #e7e7e7;
+  --mainsection-table-element-background-color: #ececec;
 }
 
 .App {

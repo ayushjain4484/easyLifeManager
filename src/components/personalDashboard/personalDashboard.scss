@@ -10,10 +10,16 @@
 }
 
 .sidebar-container {
-  flex: 0 0 20%; /* Sidebar takes up 20% of the screen width by default */
+  position: fixed; /* Fix the sidebar's position relative to the viewport */
+  width: 20%; /* Set the width to 20% of the viewport width */
+  top: 0; /* Align the top edge of the sidebar with the top of the viewport */
+  bottom: 0; /* Align the bottom edge of the sidebar with the bottom of the viewport */
+  overflow-y: auto; /* Enable scrolling within the sidebar if content overflows */
 }
 
+
 .main-section-container {
+  margin-left: 20%;
   flex: 1; /* Main section takes up the remaining space */
 }
 

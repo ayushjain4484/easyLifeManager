@@ -1,0 +1,54 @@
+
+.trip-page-header{
+  display: flex;
+  flex-direction: row;
+  gap:1rem;
+  margin-left: 3rem;
+  margin-top: 3rem;
+}
+.trip-page-header-title{
+  display: flex;
+  background: var(--mainsection-header-background-color);
+  padding: 1rem;
+  height: 3rem;
+  justify-content: center;
+  align-items: center;
+  border-radius: 1rem;
+  width: 10rem;
+}
+.trip-page-total-amount{
+  display: flex;
+  background: var(--mainsection-header-background-color);
+  padding: 1rem;
+  height: 3rem;
+  align-items: center;
+  border-radius: 1rem;
+  width: 10rem;
+}
+.trip-page-content{
+  display: flex;
+}
+
+.trip-table-element{
+  padding: 0.5rem 1rem;
+  background-color: var(--mainsection-table-element-background-color);
+  border-radius: 5px;
+}
+
+.trip-table{
+  margin-left: 3rem;
+  margin-top: 3rem;
+}
+.table-element-logo-image{
+  max-height: 3rem;
+  border-radius: 5px;
+}
+.trip-table-element input{
+  border: none;
+  background:none;
+  font-size: 1rem;
+}
+.trip-table-element button{
+  height: 2rem;
+  cursor: pointer;
+}
