@@ -40,6 +40,20 @@
   align-items: center;
   flex-direction: column;
 }
+.subscription-page-right-container-tile-small{
+  width: 50%;
+  min-height: 8vh;
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.subscription-page-right-container-tile-container-small{
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+}
 
 .subscription-page-right-container-tile-header{
   height: 3vh;
@@ -82,9 +96,41 @@
 .subscription-page-content {
   display: flex;
   overflow-y: auto;
-  margin-top: 3em;
+  margin-top: 1em;
   justify-content: space-between;
 }
+
+.subscription-page-content-show-inactive-flag {
+  margin-right: -6rem;
+}
+
+.checkbox-wrapper {
+  position: relative;
+}
+
+.custom-checkbox {
+  margin-left: 1rem;
+  width: 20px;  /* Size of the custom checkbox */
+  height: 20px;
+  background-color: var(--login-section-container-color);  /* Background of the checkbox */
+  border: 1px solid var(--login-section-container-border-color);  /* Border of the checkbox */
+  display: inline-block;
+  vertical-align: middle;
+  cursor: pointer; /* Cursor to pointer to indicate this is clickable */
+
+}
+
+.subscription-page-content-show-inactive-flag-checkbox:checked + .custom-checkbox {
+  background-color: var(--sidebar-background-color-hover); /* Or another color when checked */
+  border-color:  var(--sidebar-background-color-hover); /* Border color when checked */
+}
+
+/* Optional: Add a checkmark when checked */
+.subscription-page-content-show-inactive-flag-checkbox:checked + .custom-checkbox:after {
+  content: '✔';
+  color: white;
+}
+
 
 .subscription-table-element {
   padding: 0.5rem 1rem;

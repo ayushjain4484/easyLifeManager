@@ -4,6 +4,7 @@ import { fetchSubscriptions } from './subscriptionService';
 import "./subscription.scss";
 
 
+
 const SubscriptionsPage: React.FC = () => {
     const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
     const [sortConfig, setSortConfig] = useState<{ key: keyof Subscription; direction: 'ascending' | 'descending' } | null>(null);
@@ -16,6 +17,9 @@ const SubscriptionsPage: React.FC = () => {
     const [totalBackupCost, setTotalBackupCost] = useState(0);
     const [totalTravelCost, setTotalTravelCost] = useState(0);
     const [totalOtherCost, setTotalOtherCost] = useState(0);
+    const [totalInactiveCost, setTotalInactiveCost] = useState(0);
+    const [showInactive, setShowInactive] = useState(false);
+
 
     const sortedSubscriptions = useMemo(() => {
         return [...subscriptions].sort((a, b) => {
@@ -59,6 +63,7 @@ const SubscriptionsPage: React.FC = () => {
                 calculateTotalInsuranceCost(fetchedSubscriptions);
                 calculateTotalFitnessCost(fetchedSubscriptions);
                 calculateTotalOtherCost(fetchedSubscriptions);
+                calculateInactiveOtherCost(fetchedSubscriptions);
             })
             .catch(error => console.error('Failed to load subscriptions:', error));
     }, []);
@@ -154,6 +159,16 @@ const SubscriptionsPage: React.FC = () => {
         setTotalOtherCost(total);
     };
 
+    const calculateInactiveOtherCost = (subscriptions: Subscription[]) => {
+        const total = subscriptions.reduce((sum, subscription) => {
+            if (!subscription.is_active) {
+                return sum + parseFloat(subscription.cost);
+            }
+            return sum;
+        }, 0);
+        setTotalInactiveCost(total);
+    };
+
 
     return (
         <div className="subscription-page-container">
@@ -164,7 +179,23 @@ const SubscriptionsPage: React.FC = () => {
                     <div className="subscription-page-header-title"><h2>Yearly: {totalYearlyPayment}</h2></div>
                 </div>
             </div>
+            <div className='subscription-page-content-show-inactive-flag'>
+                <label>
+                    Show Inactive :
+                    <span className="checkbox-wrapper">
+                          <input
+                              className="subscription-page-content-show-inactive-flag-checkbox"
+                              type="checkbox"
+                              checked={showInactive}
+                              onChange={e => setShowInactive(e.target.checked)}
+                              style={{display: 'none'}} // Hide the default checkbox
+                          />
+                         <span className="custom-checkbox"></span> {/* This will be our custom checkbox */}
+                    </span>
+                </label>
+            </div>
             <div className="subscription-page-content">
+
                 <div className="subscription-table">
                     <table className="subscription-table">
                         <thead>
@@ -186,25 +217,32 @@ const SubscriptionsPage: React.FC = () => {
                         </thead>
 
                         <tbody>
-                        {sortedSubscriptions.map((subscription, index) => (
-                            <tr key={index}>
-                                <td className={subscription.is_active ? "subscription-table-element" : "subscription-table-element-red"}>
-                                    <img src={subscription.logo} alt={`${subscription.service} logo`}
-                                         className="table-element-logo-image"/>
-                                </td>
-                                <td className={subscription.is_active ? "subscription-table-element" : "subscription-table-element-red"}>{subscription.service}</td>
-                                <td className={subscription.is_active ? "subscription-table-element" : "subscription-table-element-red"}>{subscription.renews}</td>
-                                <td className={subscription.is_active ? "subscription-table-element" : "subscription-table-element-red"}>{subscription.frequency}</td>
-                                <td className={subscription.is_active ? "subscription-table-element" : "subscription-table-element-red"}>{`${subscription.cost} ${subscription.currency}`}</td>
-                                <td className={subscription.is_active ? "subscription-table-element" : "subscription-table-element-red"}>{subscription.is_active ? 'Yes' : 'No'}</td>
-                                <td className={subscription.is_active ? "subscription-table-element" : "subscription-table-element-red"}>
-                                    <button>Pause</button>
-                                </td>
-                            </tr>
-                        ))}
+                        {sortedSubscriptions.map((subscription, index) => {
+                            if (subscription.is_active || showInactive) {
+                                return (
+                                    <tr key={index}>
+                                        <td className={subscription.is_active ? "subscription-table-element" : "subscription-table-element-red"}>
+                                            <img src={subscription.logo} alt={`${subscription.service} logo`}
+                                                 className="table-element-logo-image"/>
+                                        </td>
+                                        <td className={subscription.is_active ? "subscription-table-element" : "subscription-table-element-red"}>{subscription.service}</td>
+                                        <td className={subscription.is_active ? "subscription-table-element" : "subscription-table-element-red"}>{subscription.renews}</td>
+                                        <td className={subscription.is_active ? "subscription-table-element" : "subscription-table-element-red"}>{subscription.frequency}</td>
+                                        <td className={subscription.is_active ? "subscription-table-element" : "subscription-table-element-red"}>{`${subscription.cost} ${subscription.currency}`}</td>
+                                        <td className={subscription.is_active ? "subscription-table-element" : "subscription-table-element-red"}>{subscription.is_active ? 'Yes' : 'No'}</td>
+                                        <td className={subscription.is_active ? "subscription-table-element" : "subscription-table-element-red"}>
+                                            <button>Pause</button>
+                                        </td>
+                                    </tr>
+                                );
+                            }
+                            return null; // Skip rendering for inactive subscriptions if the flag is false
+                        })}
+
                         </tbody>
                     </table>
                 </div>
+
 
                 <div className='subscription-page-right-container'>
                     <div className="subscription-page-right-container-tile">
@@ -245,80 +283,84 @@ const SubscriptionsPage: React.FC = () => {
                             })}
                         </div>
                     </div>
-                    <div className="subscription-page-right-container-tile">
-                        <div className="subscription-page-right-container-tile-header">
-                            <h4>Backup (€{totalBackupCost.toFixed(2)})</h4>
+                    <div className="subscription-page-right-container-tile-container-small">
+                        <div className="subscription-page-right-container-tile-small">
+                            <div className="subscription-page-right-container-tile-header">
+                                <h4>Backup (€{totalBackupCost.toFixed(2)})</h4>
+                            </div>
+                            <div className="subscription-page-right-container-tile-content">
+                                {sortedSubscriptions.map((subscription, index) => {
+                                    // Only render the image if the category is 'entertainment'
+                                    if (subscription.category === 'backup' && subscription.is_active) {
+                                        return (
+                                            <div key={index}>
+                                                <img src={subscription.logo} alt={`${subscription.service} logo`}
+                                                     className="table-element-logo-image"/>
+                                            </div>
+                                        );
+                                    }
+                                    return null;
+                                })}
+                            </div>
                         </div>
-                        <div className="subscription-page-right-container-tile-content">
-                            {sortedSubscriptions.map((subscription, index) => {
-                                // Only render the image if the category is 'entertainment'
-                                if (subscription.category === 'backup' && subscription.is_active) {
-                                    return (
-                                        <div key={index}>
-                                            <img src={subscription.logo} alt={`${subscription.service} logo`}
-                                                 className="table-element-logo-image"/>
-                                        </div>
-                                    );
-                                }
-                                return null;
-                            })}
-                        </div>
-                    </div>
-                    <div className="subscription-page-right-container-tile">
-                        <div className="subscription-page-right-container-tile-header">
-                            <h4>Fitness (€{totalFitnessCost.toFixed(2)})</h4>
-                        </div>
-                        <div className="subscription-page-right-container-tile-content">
-                            {sortedSubscriptions.map((subscription, index) => {
-                                // Only render the image if the category is 'entertainment'
-                                if (subscription.category === 'fitness' && subscription.is_active) {
-                                    return (
-                                        <div key={index}>
-                                            <img src={subscription.logo} alt={`${subscription.service} logo`}
-                                                 className="table-element-logo-image"/>
-                                        </div>
-                                    );
-                                }
-                                return null;
-                            })}
-                        </div>
-                    </div>
-                    <div className="subscription-page-right-container-tile">
-                        <div className="subscription-page-right-container-tile-header">
-                            <h4>Insurance (€{totalInsuranceCost.toFixed(2)})</h4>
-                        </div>
-                        <div className="subscription-page-right-container-tile-content">
-                            {sortedSubscriptions.map((subscription, index) => {
-                                // Only render the image if the category is 'entertainment'
-                                if (subscription.category === 'insurance' && subscription.is_active) {
-                                    return (
-                                        <div key={index}>
-                                            <img src={subscription.logo} alt={`${subscription.service} logo`}
-                                                 className="table-element-logo-image"/>
-                                        </div>
-                                    );
-                                }
-                                return null;
-                            })}
+                        <div className="subscription-page-right-container-tile-small">
+                            <div className="subscription-page-right-container-tile-header">
+                                <h4>Fitness (€{totalFitnessCost.toFixed(2)})</h4>
+                            </div>
+                            <div className="subscription-page-right-container-tile-content">
+                                {sortedSubscriptions.map((subscription, index) => {
+                                    // Only render the image if the category is 'entertainment'
+                                    if (subscription.category === 'fitness' && subscription.is_active) {
+                                        return (
+                                            <div key={index}>
+                                                <img src={subscription.logo} alt={`${subscription.service} logo`}
+                                                     className="table-element-logo-image"/>
+                                            </div>
+                                        );
+                                    }
+                                    return null;
+                                })}
+                            </div>
                         </div>
                     </div>
-                    <div className="subscription-page-right-container-tile">
-                        <div className="subscription-page-right-container-tile-header">
-                            <h4>Travel (€{totalTravelCost.toFixed(2)})</h4>
+                    <div className="subscription-page-right-container-tile-container-small">
+                        <div className="subscription-page-right-container-tile-small">
+                            <div className="subscription-page-right-container-tile-header">
+                                <h4>Insurance (€{totalInsuranceCost.toFixed(2)})</h4>
+                            </div>
+                            <div className="subscription-page-right-container-tile-content">
+                                {sortedSubscriptions.map((subscription, index) => {
+                                    // Only render the image if the category is 'entertainment'
+                                    if (subscription.category === 'insurance' && subscription.is_active) {
+                                        return (
+                                            <div key={index}>
+                                                <img src={subscription.logo} alt={`${subscription.service} logo`}
+                                                     className="table-element-logo-image"/>
+                                            </div>
+                                        );
+                                    }
+                                    return null;
+                                })}
+                            </div>
                         </div>
-                        <div className="subscription-page-right-container-tile-content">
-                            {sortedSubscriptions.map((subscription, index) => {
-                                // Only render the image if the category is 'entertainment'
-                                if (subscription.category === 'travel' && subscription.is_active) {
-                                    return (
-                                        <div key={index}>
-                                            <img src={subscription.logo} alt={`${subscription.service} logo`}
-                                                 className="table-element-logo-image"/>
-                                        </div>
-                                    );
-                                }
-                                return null;
-                            })}
+                        <div className="subscription-page-right-container-tile-small">
+                            <div className="subscription-page-right-container-tile-header">
+                                <h4>Travel (€{totalTravelCost.toFixed(2)})</h4>
+                            </div>
+                            <div className="subscription-page-right-container-tile-content">
+                                {sortedSubscriptions.map((subscription, index) => {
+                                    // Only render the image if the category is 'entertainment'
+                                    if (subscription.category === 'travel' && subscription.is_active) {
+                                        return (
+                                            <div key={index}>
+                                                <img src={subscription.logo} alt={`${subscription.service} logo`}
+                                                     className="table-element-logo-image"/>
+                                            </div>
+                                        );
+                                    }
+                                    return null;
+                                })}
+                            </div>
                         </div>
                     </div>
                     <div className="subscription-page-right-container-tile">
@@ -329,6 +371,25 @@ const SubscriptionsPage: React.FC = () => {
                             {sortedSubscriptions.map((subscription, index) => {
                                 // Only render the image if the category is 'entertainment'
                                 if (subscription.category === 'other' && subscription.is_active) {
+                                    return (
+                                        <div key={index}>
+                                            <img src={subscription.logo} alt={`${subscription.service} logo`}
+                                                 className="table-element-logo-image"/>
+                                        </div>
+                                    );
+                                }
+                                return null;
+                            })}
+                        </div>
+                    </div>
+                    <div className="subscription-page-right-container-tile">
+                        <div className="subscription-page-right-container-tile-header">
+                            <h4>Inactive (€{totalInactiveCost.toFixed(2)})</h4>
+                        </div>
+                        <div className="subscription-page-right-container-tile-content">
+                            {sortedSubscriptions.map((subscription, index) => {
+                                // Only render the image if the category is 'entertainment'
+                                if (!subscription.is_active) {
                                     return (
                                         <div key={index}>
                                             <img src={subscription.logo} alt={`${subscription.service} logo`}
