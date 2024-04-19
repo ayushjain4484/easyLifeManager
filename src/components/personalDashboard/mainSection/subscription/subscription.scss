@@ -1,15 +1,18 @@
-.subscription-page-container{
+.subscription-page-container {
   display: flex;
   flex-direction: column;
 }
-.subscription-page-header{
+
+.subscription-page-header {
   display: flex;
   flex-direction: row;
-  gap:1rem;
   margin-left: 3rem;
   margin-top: 3rem;
+  justify-content: space-between;
+  margin-right: 3rem;
 }
-.subscription-page-header-title{
+
+.subscription-page-header-title {
   display: flex;
   background: var(--mainsection-header-background-color);
   padding: 1rem;
@@ -19,7 +22,48 @@
   border-radius: 1rem;
   width: 10rem;
 }
-.subscription-page-total-amount{
+
+.subscription-page-right-container{
+  height: 78vh;
+  width: 30%;
+  margin-right: 2rem;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  gap: 2rem;
+}
+.subscription-page-right-container-tile{
+  width: 100%;
+  min-height: 8vh;
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.subscription-page-right-container-tile-header{
+  height: 3vh;
+  background-color: var(--mainsection-table-element-background-color);
+  width: 100%;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.subscription-page-right-container-tile-content{
+  padding-top: 0.5rem;
+  height: 6vh;
+  background-color: var(--mainsection-right-tile-content-color);
+  width: 100%;
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: row;
+  div{
+    margin-left: 0.5rem;
+  }
+}
+
+.subscription-page-total-amount {
   display: flex;
   background: var(--mainsection-header-background-color);
   padding: 1rem;
@@ -28,38 +72,50 @@
   border-radius: 1rem;
   width: 10rem;
 }
-.subscription-page-content{
+
+.subscription-page-total-amount-container {
   display: flex;
-  max-height: 80vh;
-  overflow-y: auto;
-  margin-top: 1em;
+  flex-direction: row;
+  gap: 1em;
 }
 
-.subscription-table-element{
+.subscription-page-content {
+  display: flex;
+  overflow-y: auto;
+  margin-top: 3em;
+  justify-content: space-between;
+}
+
+.subscription-table-element {
   padding: 0.5rem 1rem;
   background-color: var(--mainsection-table-element-background-color);
   border-radius: 5px;
 }
-.subscription-table-element-red{
+
+.subscription-table-element-red {
   padding: 0.5rem 1rem;
   background-color: var(--mainsection-table-element-background-color-red);
   border-radius: 5px;
 }
 
-.subscription-table{
-  margin-left: 3rem;
-  margin-top: 3rem;
+.subscription-table {
+  margin-left: 1.5rem;
+  max-height: 75vh;
+  overflow-y: auto;
 }
-.table-element-logo-image{
+
+.table-element-logo-image {
   max-height: 3rem;
   border-radius: 5px;
 }
-.subscription-table-element input{
+
+.subscription-table-element input {
   border: none;
-  background:none;
+  background: none;
   font-size: 1rem;
 }
-.subscription-table-element button{
+
+.subscription-table-element button {
   height: 2rem;
   cursor: pointer;
 }

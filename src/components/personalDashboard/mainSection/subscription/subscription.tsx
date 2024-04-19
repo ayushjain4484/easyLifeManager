@@ -9,6 +9,13 @@ const SubscriptionsPage: React.FC = () => {
     const [sortConfig, setSortConfig] = useState<{ key: keyof Subscription; direction: 'ascending' | 'descending' } | null>(null);
     const [totalMonthlyPayment, setTotalMonthlyPayment] = useState<string>('€0.00');
     const [totalYearlyPayment, setTotalYearlyPayment] = useState<string>('€0.00');
+    const [totalEntertainmentCost, setTotalEntertainmentCost] = useState(0);
+    const [totalInsuranceCost, setTotalInsuranceCost] = useState(0);
+    const [totalUtilityCost, setTotalUtilityCost] = useState(0);
+    const [totalFitnessCost, setTotalFitnessCost] = useState(0);
+    const [totalBackupCost, setTotalBackupCost] = useState(0);
+    const [totalTravelCost, setTotalTravelCost] = useState(0);
+    const [totalOtherCost, setTotalOtherCost] = useState(0);
 
     const sortedSubscriptions = useMemo(() => {
         return [...subscriptions].sort((a, b) => {
@@ -45,6 +52,13 @@ const SubscriptionsPage: React.FC = () => {
             .then(fetchedSubscriptions => {
                 setSubscriptions(fetchedSubscriptions);
                 calculateTotalMonthlyPayment(fetchedSubscriptions);
+                calculateTotalEntertainmentCost(fetchedSubscriptions);
+                calculateTotalUtilityCost(fetchedSubscriptions);
+                calculateTotalBackupCost(fetchedSubscriptions);
+                calculateTotalTravelCost(fetchedSubscriptions);
+                calculateTotalInsuranceCost(fetchedSubscriptions);
+                calculateTotalFitnessCost(fetchedSubscriptions);
+                calculateTotalOtherCost(fetchedSubscriptions);
             })
             .catch(error => console.error('Failed to load subscriptions:', error));
     }, []);
@@ -68,48 +82,265 @@ const SubscriptionsPage: React.FC = () => {
     };
 
 
+    const calculateTotalEntertainmentCost = (subscriptions: Subscription[]) => {
+        const total = subscriptions.reduce((sum, subscription) => {
+            if (subscription.category === 'entertainment' && subscription.is_active) {
+                return sum + parseFloat(subscription.cost);
+            }
+            return sum;
+        }, 0);
+        setTotalEntertainmentCost(total);
+    };
+
+
+    const calculateTotalUtilityCost = (subscriptions: Subscription[]) => {
+        const total = subscriptions.reduce((sum, subscription) => {
+            if (subscription.category === 'utility' && subscription.is_active) {
+                return sum + parseFloat(subscription.cost);
+            }
+            return sum;
+        }, 0);
+        setTotalUtilityCost(total);
+    };
+
+    const calculateTotalInsuranceCost = (subscriptions: Subscription[]) => {
+        const total = subscriptions.reduce((sum, subscription) => {
+            if (subscription.category === 'insurance' && subscription.is_active) {
+                return sum + parseFloat(subscription.cost);
+            }
+            return sum;
+        }, 0);
+        setTotalInsuranceCost(total);
+
+    };
+
+    const calculateTotalBackupCost = (subscriptions: Subscription[]) => {
+        const total = subscriptions.reduce((sum, subscription) => {
+            if (subscription.category === 'backup' && subscription.is_active) {
+                return sum + parseFloat(subscription.cost);
+            }
+            return sum;
+        }, 0);
+        setTotalBackupCost(total);
+    };
+
+    const calculateTotalTravelCost = (subscriptions: Subscription[]) => {
+        const total = subscriptions.reduce((sum, subscription) => {
+            if (subscription.category === 'travel' && subscription.is_active) {
+                return sum + parseFloat(subscription.cost);
+            }
+            return sum;
+        }, 0);
+        setTotalTravelCost(total);
+    };
+
+    const calculateTotalFitnessCost = (subscriptions: Subscription[]) => {
+        const total = subscriptions.reduce((sum, subscription) => {
+            if (subscription.category === 'fitness' && subscription.is_active) {
+                return sum + parseFloat(subscription.cost);
+            }
+            return sum;
+        }, 0);
+        setTotalFitnessCost(total);
+    };
+
+    const calculateTotalOtherCost = (subscriptions: Subscription[]) => {
+        const total = subscriptions.reduce((sum, subscription) => {
+            if (subscription.category === 'other' && subscription.is_active) {
+                return sum + parseFloat(subscription.cost);
+            }
+            return sum;
+        }, 0);
+        setTotalOtherCost(total);
+    };
+
+
     return (
         <div className="subscription-page-container">
             <div className="subscription-page-header">
                 <div className="subscription-page-header-title"><h2>Subscriptions</h2></div>
-                <div className="subscription-page-header-title"><h2>Monthly: {totalMonthlyPayment}</h2></div>
-                <div className="subscription-page-header-title"><h2>Yearly: {totalYearlyPayment}</h2></div>
+                <div className="subscription-page-total-amount-container">
+                    <div className="subscription-page-header-title"><h2>Monthly: {totalMonthlyPayment}</h2></div>
+                    <div className="subscription-page-header-title"><h2>Yearly: {totalYearlyPayment}</h2></div>
+                </div>
             </div>
             <div className="subscription-page-content">
-                <table className="subscription-table">
-                    <thead>
-                    <tr>
-                    <th className="subscription-table-element">Logo</th>
-                        <th className="subscription-table-element" onClick={() => requestSort('service')}>Service</th>
-                        <th className="subscription-table-element" onClick={() => requestSort('renews')}>Renewal Date</th>
-                        <th className="subscription-table-element" onClick={() => requestSort('frequency')}>Frequency</th>
-                        <th className="subscription-table-element" onClick={() => requestSort('cost')}>Cost</th>
-                        <th className="subscription-table-element" onClick={() => requestSort('is_active')}>Active</th>
-                        <th className="subscription-table-element" onClick={() => requestSort('currency')}>Currency</th>
-                        <th className="subscription-table-element">Manage</th>
-                    </tr>
-                    </thead>
-
-                    <tbody>
-                    {sortedSubscriptions.map((subscription, index) => (
-                        <tr key={index}>
-                            <td className={subscription.is_active ? "subscription-table-element" : "subscription-table-element-red"}>
-                                <img src={subscription.logo} alt={`${subscription.service} logo`}
-                                     className="table-element-logo-image"/>
-                            </td>
-                            <td className={subscription.is_active ? "subscription-table-element" : "subscription-table-element-red"}>{subscription.service}</td>
-                            <td className={subscription.is_active ? "subscription-table-element" : "subscription-table-element-red"}>{subscription.renews}</td>
-                            <td className={subscription.is_active ? "subscription-table-element" : "subscription-table-element-red"}>{subscription.frequency}</td>
-                            <td className={subscription.is_active ? "subscription-table-element" : "subscription-table-element-red"}>{`${subscription.cost} ${subscription.currency}`}</td>
-                            <td className={subscription.is_active ? "subscription-table-element" : "subscription-table-element-red"}>{subscription.is_active ? 'Yes' : 'No'}</td>
-                            <td className={subscription.is_active ? "subscription-table-element" : "subscription-table-element-red"}>{subscription.currency}</td>
-                            <td className={subscription.is_active ? "subscription-table-element" : "subscription-table-element-red"}>
-                                <button>Pause</button>
-                            </td>
+                <div className="subscription-table">
+                    <table className="subscription-table">
+                        <thead>
+                        <tr>
+                            <th className="subscription-table-element">Logo</th>
+                            <th className="subscription-table-element" onClick={() => requestSort('service')}>Service
+                            </th>
+                            <th className="subscription-table-element" onClick={() => requestSort('renews')}>Renewal
+                                Date
+                            </th>
+                            <th className="subscription-table-element"
+                                onClick={() => requestSort('frequency')}>Frequency
+                            </th>
+                            <th className="subscription-table-element" onClick={() => requestSort('cost')}>Cost</th>
+                            <th className="subscription-table-element" onClick={() => requestSort('is_active')}>Active
+                            </th>
+                            <th className="subscription-table-element">Manage</th>
                         </tr>
-                    ))}
-                    </tbody>
-                </table>
+                        </thead>
+
+                        <tbody>
+                        {sortedSubscriptions.map((subscription, index) => (
+                            <tr key={index}>
+                                <td className={subscription.is_active ? "subscription-table-element" : "subscription-table-element-red"}>
+                                    <img src={subscription.logo} alt={`${subscription.service} logo`}
+                                         className="table-element-logo-image"/>
+                                </td>
+                                <td className={subscription.is_active ? "subscription-table-element" : "subscription-table-element-red"}>{subscription.service}</td>
+                                <td className={subscription.is_active ? "subscription-table-element" : "subscription-table-element-red"}>{subscription.renews}</td>
+                                <td className={subscription.is_active ? "subscription-table-element" : "subscription-table-element-red"}>{subscription.frequency}</td>
+                                <td className={subscription.is_active ? "subscription-table-element" : "subscription-table-element-red"}>{`${subscription.cost} ${subscription.currency}`}</td>
+                                <td className={subscription.is_active ? "subscription-table-element" : "subscription-table-element-red"}>{subscription.is_active ? 'Yes' : 'No'}</td>
+                                <td className={subscription.is_active ? "subscription-table-element" : "subscription-table-element-red"}>
+                                    <button>Pause</button>
+                                </td>
+                            </tr>
+                        ))}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div className='subscription-page-right-container'>
+                    <div className="subscription-page-right-container-tile">
+                        <div className="subscription-page-right-container-tile-header">
+                            <h4>Entertainment (€{totalEntertainmentCost.toFixed(2)})</h4>
+                        </div>
+                        <div className="subscription-page-right-container-tile-content">
+                            {sortedSubscriptions.map((subscription, index) => {
+                                // Only render the image if the category is 'entertainment'
+                                if (subscription.category === 'entertainment' && subscription.is_active) {
+                                    return (
+                                        <div key={index}>
+                                            <img src={subscription.logo} alt={`${subscription.service} logo`}
+                                                 className="table-element-logo-image"/>
+                                        </div>
+                                    );
+                                }
+                                return null;
+                            })}
+                        </div>
+                    </div>
+                    <div className="subscription-page-right-container-tile">
+                        <div className="subscription-page-right-container-tile-header">
+                            <h4>Utility (€{totalUtilityCost.toFixed(2)})</h4>
+                        </div>
+                        <div className="subscription-page-right-container-tile-content">
+                            {sortedSubscriptions.map((subscription, index) => {
+                                // Only render the image if the category is 'entertainment'
+                                if (subscription.category === 'utility' && subscription.is_active) {
+                                    return (
+                                        <div key={index}>
+                                            <img src={subscription.logo} alt={`${subscription.service} logo`}
+                                                 className="table-element-logo-image"/>
+                                        </div>
+                                    );
+                                }
+                                return null;
+                            })}
+                        </div>
+                    </div>
+                    <div className="subscription-page-right-container-tile">
+                        <div className="subscription-page-right-container-tile-header">
+                            <h4>Backup (€{totalBackupCost.toFixed(2)})</h4>
+                        </div>
+                        <div className="subscription-page-right-container-tile-content">
+                            {sortedSubscriptions.map((subscription, index) => {
+                                // Only render the image if the category is 'entertainment'
+                                if (subscription.category === 'backup' && subscription.is_active) {
+                                    return (
+                                        <div key={index}>
+                                            <img src={subscription.logo} alt={`${subscription.service} logo`}
+                                                 className="table-element-logo-image"/>
+                                        </div>
+                                    );
+                                }
+                                return null;
+                            })}
+                        </div>
+                    </div>
+                    <div className="subscription-page-right-container-tile">
+                        <div className="subscription-page-right-container-tile-header">
+                            <h4>Fitness (€{totalFitnessCost.toFixed(2)})</h4>
+                        </div>
+                        <div className="subscription-page-right-container-tile-content">
+                            {sortedSubscriptions.map((subscription, index) => {
+                                // Only render the image if the category is 'entertainment'
+                                if (subscription.category === 'fitness' && subscription.is_active) {
+                                    return (
+                                        <div key={index}>
+                                            <img src={subscription.logo} alt={`${subscription.service} logo`}
+                                                 className="table-element-logo-image"/>
+                                        </div>
+                                    );
+                                }
+                                return null;
+                            })}
+                        </div>
+                    </div>
+                    <div className="subscription-page-right-container-tile">
+                        <div className="subscription-page-right-container-tile-header">
+                            <h4>Insurance (€{totalInsuranceCost.toFixed(2)})</h4>
+                        </div>
+                        <div className="subscription-page-right-container-tile-content">
+                            {sortedSubscriptions.map((subscription, index) => {
+                                // Only render the image if the category is 'entertainment'
+                                if (subscription.category === 'insurance' && subscription.is_active) {
+                                    return (
+                                        <div key={index}>
+                                            <img src={subscription.logo} alt={`${subscription.service} logo`}
+                                                 className="table-element-logo-image"/>
+                                        </div>
+                                    );
+                                }
+                                return null;
+                            })}
+                        </div>
+                    </div>
+                    <div className="subscription-page-right-container-tile">
+                        <div className="subscription-page-right-container-tile-header">
+                            <h4>Travel (€{totalTravelCost.toFixed(2)})</h4>
+                        </div>
+                        <div className="subscription-page-right-container-tile-content">
+                            {sortedSubscriptions.map((subscription, index) => {
+                                // Only render the image if the category is 'entertainment'
+                                if (subscription.category === 'travel' && subscription.is_active) {
+                                    return (
+                                        <div key={index}>
+                                            <img src={subscription.logo} alt={`${subscription.service} logo`}
+                                                 className="table-element-logo-image"/>
+                                        </div>
+                                    );
+                                }
+                                return null;
+                            })}
+                        </div>
+                    </div>
+                    <div className="subscription-page-right-container-tile">
+                        <div className="subscription-page-right-container-tile-header">
+                            <h4>Other (€{totalOtherCost.toFixed(2)})</h4>
+                        </div>
+                        <div className="subscription-page-right-container-tile-content">
+                            {sortedSubscriptions.map((subscription, index) => {
+                                // Only render the image if the category is 'entertainment'
+                                if (subscription.category === 'other' && subscription.is_active) {
+                                    return (
+                                        <div key={index}>
+                                            <img src={subscription.logo} alt={`${subscription.service} logo`}
+                                                 className="table-element-logo-image"/>
+                                        </div>
+                                    );
+                                }
+                                return null;
+                            })}
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     );
