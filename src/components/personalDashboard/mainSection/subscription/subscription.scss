@@ -40,6 +40,11 @@
   background-color: var(--mainsection-table-element-background-color);
   border-radius: 5px;
 }
+.subscription-table-element-red{
+  padding: 0.5rem 1rem;
+  background-color: var(--mainsection-table-element-background-color-red);
+  border-radius: 5px;
+}
 
 .subscription-table{
   margin-left: 3rem;
