@@ -46,7 +46,10 @@
 
 .home-page-content{
     background: black;
+    margin: -1em;
+    padding: 0.5em;
 }
+
 .logo img{
     position: fixed;
     max-height: 4vh;
@@ -55,7 +58,9 @@
     top:20px;
 }
 body{
-    background: black;
+    background: white;
+    margin-top: -0.1em;
+    font-family: Arial, serif;
 }
 
 @media only screen and (max-width: 600px) {

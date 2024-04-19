@@ -15,16 +15,21 @@
   top: 0; /* Align the top edge of the sidebar with the top of the viewport */
   bottom: 0; /* Align the bottom edge of the sidebar with the bottom of the viewport */
   overflow-y: auto; /* Enable scrolling within the sidebar if content overflows */
+  margin-left: -1em;
+  max-height: 100vh;
 }
 
 
 .main-section-container {
-  margin-left: 20%;
+  margin-left: 19.25%;
   flex: 1; /* Main section takes up the remaining space */
   min-height: 100vh;
+  margin-bottom: 1em !important;
+  margin-right: -1em;
+  background-color: white;
 }
 
 .dashboard-content{
-  height: 100%;
   background: white;
+  height: 100vh;
 }

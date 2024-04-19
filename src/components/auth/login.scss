@@ -1,0 +1,55 @@
+/* src/components/auth/Login.css */
+
+.login-container {
+  width: 100%;
+  max-width: 400px;
+  background-color: var(--login-section-container-color);
+  margin: 20rem auto 0;
+  min-height: 12rem;
+  padding: 5rem 20px 20px;
+  border-radius: 2rem;
+  opacity: 0.8;
+  color: var(--login-section-text-color);
+  border: solid 1px var(--login-section-container-border-color);
+}
+
+.login-container:hover {
+  opacity: 1;
+}
+
+.form-group {
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-group label {
+  flex: 0.5;
+}
+
+.form-group input {
+  height: 2rem;
+  flex: 1;
+}
+
+.login-button {
+  display: flex;
+  width: 5rem;
+  justify-content: center;
+  align-items: center;
+  font-size: 1rem;
+  margin-top: 2rem;
+  margin-left: 20rem;
+  height: 2rem;
+  padding: 10px;
+  background-color: var(--login-section-button-color);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.login-error {
+  color: red;
+}

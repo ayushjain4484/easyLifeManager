@@ -89,6 +89,7 @@ const SubscriptionsPage: React.FC = () => {
                         <th className="trip-table-element">Manage</th>
                     </tr>
                     </thead>
+                    
                     <tbody>
                     {sortedSubscriptions.map((subscription, index) => (
                         <tr key={index}>

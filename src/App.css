@@ -7,6 +7,10 @@
   --mainsection-table-element-background-color-green: #d7ead5;
   --mainsection-table-element-background-color-yellow: #eae7d5;
   --mainsection-table-element-background-color-blue: #d5d7ea;
+  --login-section-container-color: #e3e3e3;
+  --login-section-button-color: #007bff;
+  --login-section-text-color: #2d2d2d;
+  --login-section-container-border-color: #ababab;
 }
 
 .App {

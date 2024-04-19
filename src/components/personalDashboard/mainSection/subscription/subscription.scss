@@ -30,6 +30,9 @@
 }
 .subscription-page-content{
   display: flex;
+  max-height: 80vh;
+  overflow-y: auto;
+  margin-top: 1em;
 }
 
 .subscription-table-element{
